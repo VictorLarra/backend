@@ -1,0 +1,6 @@
+@SIGU.API_HostAddress = http://localhost:5122
+
+GET {{SIGU.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
