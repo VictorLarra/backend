@@ -18,27 +18,81 @@ namespace SIGU.API.Controllers
         _logger = logger;
     }
 
-    // GET: api/Usuarios   <- ruta explícita para LISTAR
-    [HttpGet("")] // explícito: evita conflictos con la ruta {id}
-    public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
-    {
-        _logger.LogInformation("GetUsuarios invoked");
-        var list = await _context.usuarios.ToListAsync();
-        return Ok(list);
-    }
+        // GET: api/Usuarios   <- ruta explícita para LISTAR
+        // [HttpGet("")] // explícito: evita conflictos con la ruta {id}
+        // public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
+        // {
+        //     _logger.LogInformation("GetUsuarios invoked");
+        //     var list = await _context.usuarios.ToListAsync();
+        //     return Ok(list);
+        // }
 
-    // GET: api/Usuarios/5  <- fuerza que id sea entero
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<Usuario>> GetUsuario(int id)
-    {
-        _logger.LogInformation("GetUsuario invoked for id {Id}", id);
-        var usuario = await _context.usuarios.FindAsync(id);
-        if (usuario == null) return NotFound();
-        return usuario;
-    }
+        // // GET: api/Usuarios/5  <- fuerza que id sea entero
+        // [HttpGet("{id:int}")]
+        // public async Task<ActionResult<Usuario>> GetUsuario(int id)
+        // {
+        //     _logger.LogInformation("GetUsuario invoked for id {Id}", id);
+        //     var usuario = await _context.usuarios.FindAsync(id);
+        //     if (usuario == null) return NotFound();
+        //     return usuario;
+        // }
 
 
-[HttpPost]
+// GET: api/Usuarios
+[HttpGet("")] // explícito: evita conflictos con la ruta {id}
+public async Task<ActionResult<IEnumerable<object>>> GetUsuarios()
+{
+    _logger.LogInformation("GetUsuarios invoked");
+
+    var list = await _context.usuarios
+        .Include(u => u.programa) // 👈 incluye la relación
+        .Select(u => new 
+        {
+            u.id,
+            u.nombre,
+            u.cedula,
+            u.correo,
+            u.rol,
+            Programa = u.programa != null ? u.programa.nombre : null // 👈 nombre programa
+        })
+        .ToListAsync();
+
+    return Ok(list);
+}
+
+// GET: api/Usuarios/5
+[HttpGet("{id:int}")]
+public async Task<ActionResult<object>> GetUsuario(int id)
+{
+    _logger.LogInformation("GetUsuario invoked for id {Id}", id);
+
+    var usuario = await _context.usuarios
+        .Include(u => u.programa)
+        .Where(u => u.id == id)
+        .Select(u => new 
+        {
+            u.id,
+            u.nombre,
+            u.cedula,
+            u.correo,
+            u.rol,
+            Programa = u.programa != null ? u.programa.nombre : null
+        })
+        .FirstOrDefaultAsync();
+
+    if (usuario == null) return NotFound();
+
+    return Ok(usuario);
+}
+
+
+
+
+
+
+
+
+        [HttpPost]
 public async Task<IActionResult> CrearUsuario([FromBody] Usuario usuario)
 {
             try

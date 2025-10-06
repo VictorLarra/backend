@@ -1,14 +1,11 @@
-// namespace SIGU.API.Models
-// {
-//     public class Programa
-//     {
-//         public int id { get; set; }
-//         public string nombre { get; set; } = string.Empty;
+namespace SIGU.API.Models
+{
+    public class programa
+    {
+        public int programaid { get; set; }
+        public string nombre { get; set; } = string.Empty;
 
-//         // Relación 1:N con Usuarios
-//         public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
-
-//         // Relación 1:N con Matriculas
-//         public ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
-//     }
-// }
+        // Relación: un programa puede tener muchos usuarios
+        public ICollection<Usuario>? usuarios { get; set; }
+    }
+}
