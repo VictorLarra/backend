@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIGU.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2adfc6288cfc4631c279c2b4276fcf23ac4c83c9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b4587f34442bcae145cc776cc7d254d4e49e1cd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIGU.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIGU.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

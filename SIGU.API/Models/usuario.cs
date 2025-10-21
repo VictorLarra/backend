@@ -12,6 +12,8 @@ namespace SIGU.API.Models
 
         // Relación con Programa (muchos usuarios pertenecen a un programa)
         public int? programaid { get; set; }
+
+        public string? tipoPrograma { get; set; } // Especial, Regular 
        public programa? programa { get; set; }
 
     

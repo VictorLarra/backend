@@ -46,14 +46,15 @@ public async Task<ActionResult<IEnumerable<object>>> GetUsuarios()
 
     var list = await _context.usuarios
         .Include(u => u.programa) // 👈 incluye la relación
-        .Select(u => new 
+        .Select(u => new
         {
             u.id,
             u.nombre,
             u.cedula,
             u.correo,
             u.rol,
-            Programa = u.programa != null ? u.programa.nombre : null // 👈 nombre programa
+            Programa = u.programa != null ? u.programa.nombre : null,
+            tipoPrograma = u.tipoPrograma
         })
         .ToListAsync();
 
@@ -69,14 +70,17 @@ public async Task<ActionResult<object>> GetUsuario(int id)
     var usuario = await _context.usuarios
         .Include(u => u.programa)
         .Where(u => u.id == id)
-        .Select(u => new 
+        .Select(u => new
         {
             u.id,
             u.nombre,
             u.cedula,
             u.correo,
             u.rol,
-            Programa = u.programa != null ? u.programa.nombre : null
+            Programa = u.programa != null ? u.programa.nombre : null,
+            tipoPrograma = u.tipoPrograma
+
+
         })
         .FirstOrDefaultAsync();
 
@@ -86,11 +90,73 @@ public async Task<ActionResult<object>> GetUsuario(int id)
 }
 
 
+        // METODO PARA BUSCAR USUARIO EN ESPECIFICO POR NOMBRE
+   [HttpGet("buscar/{nombre}")]
+public async Task<ActionResult<IEnumerable<Usuario>>> BuscarUsuario(string nombre)
+{
+    var usuarios = await _context.usuarios
+        .Include(u => u.programa)
+        .Where(u => u.nombre.ToLower().Contains(nombre.ToLower()))
+        .ToListAsync();
 
+    if (usuarios == null || usuarios.Count == 0)
+    {
+        return NotFound();
+    }
 
+    return Ok(usuarios);
+}
 
+//////////////////////////////
+// GET: api/Usuarios/por-tipo/{tipoPrograma}
+[HttpGet("por-tipo/{tipoPrograma}")]
+public async Task<IActionResult> GetUsuariosPorTipo(string tipoPrograma)
+{
+    try
+    {
+        using (var connection = _context.Database.GetDbConnection())
+        {
+            await connection.OpenAsync();
 
+            using (var command = connection.CreateCommand())
+            {
+                // 🔹 Llamamos a la función PostgreSQL
+                command.CommandText = "SELECT * FROM obtener_estudiantes_por_tipo(@tipo)";
+                var parametro = command.CreateParameter();
+                parametro.ParameterName = "@tipo";
+                parametro.Value = tipoPrograma;
+                command.Parameters.Add(parametro);
 
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    var listaUsuarios = new List<object>();
+
+                    while (await reader.ReadAsync())
+                    {
+                        listaUsuarios.Add(new
+                        {
+                            Id = reader["id"],
+                            Nombre = reader["nombre"],
+                            Cedula = reader["cedula"],
+                            Correo = reader["correo"],
+                            Rol = reader["rol"],
+                            ProgramaId = reader["programaid"],
+                            TipoPrograma = reader["tipoPrograma"]
+                        });
+                    }
+
+                    return Ok(listaUsuarios);
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new { message = ex.Message });
+    }
+}
+
+//////////////////////////
 
         [HttpPost]
 public async Task<IActionResult> CrearUsuario([FromBody] Usuario usuario)
@@ -109,29 +175,6 @@ public async Task<IActionResult> CrearUsuario([FromBody] Usuario usuario)
 }
 
 
-        // PUT: api/usuarios/5
-        // [HttpPut("{id}")] //este metodo es para actualizar
-        // public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
-        // {
-        //     if (id != usuario.id)
-        //         return BadRequest();
-
-        //     _context.Entry(usuario).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!_context.usuarios.Any(e => e.id == id))
-        //             return NotFound();
-        //         else
-        //             throw;
-        //     }
-
-        //     return NoContent();
-        // }
 
         [HttpPut("{id}")]
         // public IActionResult EditarUsuario(int id, [FromBody] Usuario usuario)

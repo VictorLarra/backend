@@ -62,10 +62,10 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 👉 Controllers
+//  Controllers
 builder.Services.AddControllers();
 
-// 👉 Swagger
+//  Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -101,7 +101,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// ⚠️ IMPORTANTE: colocar en este orden
+//  colocar en este orden
 
 app.UseCors("AllowAll");
 
