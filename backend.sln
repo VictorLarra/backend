@@ -4,6 +4,8 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIGU.API", "SIGU.API\SIGU.API.csproj", "{8E17DCA5-503B-3F26-891E-A71950234CD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{CDCE74A0-69A4-4F6F-87AC-243C3B1121C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +16,10 @@ Global
 		{8E17DCA5-503B-3F26-891E-A71950234CD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E17DCA5-503B-3F26-891E-A71950234CD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E17DCA5-503B-3F26-891E-A71950234CD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDCE74A0-69A4-4F6F-87AC-243C3B1121C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDCE74A0-69A4-4F6F-87AC-243C3B1121C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDCE74A0-69A4-4F6F-87AC-243C3B1121C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDCE74A0-69A4-4F6F-87AC-243C3B1121C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

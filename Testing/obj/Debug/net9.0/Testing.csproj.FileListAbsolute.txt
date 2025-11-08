@@ -1,0 +1,8 @@
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\bin\Debug\net9.0\.msCoverageSourceRootsMapping_Testing
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\bin\Debug\net9.0\CoverletSourceRootsMapping_Testing
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\obj\Debug\net9.0\Testing.csproj.AssemblyReference.cache
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\obj\Debug\net9.0\Testing.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\obj\Debug\net9.0\Testing.AssemblyInfoInputs.cache
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\obj\Debug\net9.0\Testing.AssemblyInfo.cs
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\obj\Debug\net9.0\Testing.csproj.CoreCompileInputs.cache
+C:\Users\SD\Documents\UNIVERSIDAD DE CALDAS\2025-2\PROGRAMACIÓN WEB 2\mysigu\backend\Testing\obj\Debug\net9.0\Testing.sourcelink.json

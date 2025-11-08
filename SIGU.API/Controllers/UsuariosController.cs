@@ -12,11 +12,18 @@ namespace SIGU.API.Controllers
     private readonly SiguContext _context;
     private readonly ILogger<UsuariosController> _logger;
 
-    public UsuariosController(SiguContext context, ILogger<UsuariosController> logger)
+        public SiguContext Context { get; }
+
+        public UsuariosController(SiguContext context, ILogger<UsuariosController> logger)
     {
         _context = context;
         _logger = logger;
     }
+
+        public UsuariosController(SiguContext context)
+        {
+            Context = context;
+        }
 
         // GET: api/Usuarios   <- ruta explícita para LISTAR
         // [HttpGet("")] // explícito: evita conflictos con la ruta {id}
@@ -38,8 +45,8 @@ namespace SIGU.API.Controllers
         // }
 
 
-// GET: api/Usuarios
-[HttpGet("")] // explícito: evita conflictos con la ruta {id}
+        // GET: api/Usuarios
+        [HttpGet("")] // explícito: evita conflictos con la ruta {id}
 public async Task<ActionResult<IEnumerable<object>>> GetUsuarios()
 {
     _logger.LogInformation("GetUsuarios invoked");
@@ -109,8 +116,8 @@ public async Task<ActionResult<IEnumerable<Usuario>>> BuscarUsuario(string nombr
 
 //////////////////////////////
 // GET: api/Usuarios/por-tipo/{tipoPrograma}
-[HttpGet("por-tipo/{tipoPrograma}")]
-public async Task<IActionResult> GetUsuariosPorTipo(string tipoPrograma)
+[HttpGet("por-tipo-proc/{tipoPrograma}")]
+public async Task<IActionResult> GetUsuariosPorTipoProc(string tipoPrograma)
 {
     try
     {
@@ -120,14 +127,20 @@ public async Task<IActionResult> GetUsuariosPorTipo(string tipoPrograma)
 
             using (var command = connection.CreateCommand())
             {
-                // 🔹 Llamamos a la función PostgreSQL
-                command.CommandText = "SELECT * FROM obtener_estudiantes_por_tipo(@tipo)";
+                // Paso 1: Ejecutar el procedimiento
+                command.CommandText = "CALL obtener_estudiantes_por_tipo_simple(@tipo, 'resultado')";
                 var parametro = command.CreateParameter();
                 parametro.ParameterName = "@tipo";
                 parametro.Value = tipoPrograma;
                 command.Parameters.Add(parametro);
+                await command.ExecuteNonQueryAsync();
+            }
 
-                using (var reader = await command.ExecuteReaderAsync())
+            // Paso 2: Leer los resultados del cursor
+            using (var fetchCommand = connection.CreateCommand())
+            {
+                fetchCommand.CommandText = "FETCH ALL FROM resultado";
+                using (var reader = await fetchCommand.ExecuteReaderAsync())
                 {
                     var listaUsuarios = new List<object>();
 
